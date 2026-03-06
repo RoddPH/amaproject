@@ -1,2 +1,2 @@
-# amaproject
+# AMA Project
 AMA Research Project
