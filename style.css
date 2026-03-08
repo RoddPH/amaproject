@@ -114,7 +114,7 @@ nav {
 
 
 #hero {
-    font: normal normal 3rem sans-serif;
+    font: normal 900 3rem "system-ui", sans-serif;
     text-align: center;
     color: white;
 }
