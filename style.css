@@ -145,4 +145,9 @@ nav {
     font: normal 900 3rem "system-ui", sans-serif;
     text-align: center;
     color: white;
+
+}
+
+#containerContent {
+    animation: transitionIn 0.75s; 
 }
