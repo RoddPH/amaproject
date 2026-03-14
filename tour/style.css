@@ -56,7 +56,7 @@ body::before {
     transition: .3s ease;
     block-size: 100dvh;
     inline-size: 100%;
-
+    padding: 0;
 }
 
 .off-screen-menu.active {
@@ -69,24 +69,41 @@ body::before {
     list-style: none;
     margin-top: 2.5rem;
     margin-right: 2.5rem;
+    
 }
 
-#tour {
+#home {
     color: black;
     font: normal 700 2rem "system-ui", sans-serif;
     list-style: none;
     margin-top: 2.5rem;
-    margin-right: 6rem;
     display: flex;
     place-content: center;
     place-items: center;
+    padding: 0;
     gap: 0.5rem;
-    margin-right: 10rem;
+    margin-right: 9.5rem;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    border-radius: 8px;
 }
 
-#tour a {
+#home a:hover {
+    background-color: #3498db;
+}
+
+#home a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 0 6.2rem;
     text-decoration: none;
     color: black;
+    font: normal 700 2rem "system-ui", sans-serif;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    margin-left: 1.5rem;
 }
 
 nav {
@@ -169,3 +186,4 @@ nav {
 #containerContent {
     animation: transitionIn 0.75s; 
 }
+

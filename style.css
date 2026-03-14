@@ -81,6 +81,7 @@ body::before {
     display: flex;
     place-content: center;
     place-items: center;
+    padding: 0 7.5rem;
     gap: 0.5rem;
     margin-right: 9.5rem;
     transition: background-color 0.3s ease;
@@ -88,13 +89,21 @@ body::before {
     border-radius: 8px;
 }
 
-#tour:hover {
+#tour a:hover {
     background-color: #3498db;
 }
 
 #tour a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 0 7.7rem;
     text-decoration: none;
     color: black;
+    font: normal 700 2rem "system-ui", sans-serif;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
 
 nav {
