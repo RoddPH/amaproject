@@ -56,7 +56,7 @@ body::before {
     transition: .3s ease;
     block-size: 100dvh;
     inline-size: 100%;
-
+    padding: 0;
 }
 
 .off-screen-menu.active {
@@ -69,6 +69,7 @@ body::before {
     list-style: none;
     margin-top: 2.5rem;
     margin-right: 2.5rem;
+    
 }
 
 #tour {
@@ -81,11 +82,19 @@ body::before {
     place-content: center;
     place-items: center;
     gap: 0.5rem;
-    margin-right: 10rem;
+    margin-right: 9.5rem;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+#tour:hover {
+    background-color: #3498db;
 }
 
 #tour a {
     text-decoration: none;
+    color: black;
 }
 
 nav {
@@ -168,3 +177,4 @@ nav {
 #containerContent {
     animation: transitionIn 0.75s; 
 }
+
