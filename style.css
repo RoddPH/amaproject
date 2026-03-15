@@ -55,7 +55,7 @@ body::before {
     font: normal normal 3rem sans-serif;
     transition: .3s ease;
     block-size: 100dvh;
-    inline-size: 100%;
+    inline-size: 100vh;
     padding: 0;
 }
 
