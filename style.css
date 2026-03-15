@@ -86,7 +86,6 @@ body::before {
     margin-top: 1rem;
 }
 
-/* FIXED: Tour link styling with blue hover effect */
 #tour a {
     font: normal 700 2rem "system-ui", sans-serif;
     text-decoration: none;
@@ -101,14 +100,13 @@ body::before {
     box-sizing: border-box;
 }
 
-/* BLUE HOVER EFFECT */
 #tour a:hover {
-    background-color: #3498db;  /* Blue background on hover */
+    background-color: #3498db;  
     color: white;
 }
 
 #tour a:hover i {
-    color: white;  /* Icon turns white on hover */
+    color: white;
 }
 
 #tour i {
