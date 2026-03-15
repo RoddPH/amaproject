@@ -80,6 +80,42 @@ body::before {
     margin-top: 2rem;
 }
 
+#tour {
+    width: 100%;
+    list-style: none;
+    margin-top: 1rem;
+}
+
+/* FIXED: Tour link styling with blue hover effect */
+#tour a {
+    font: normal 700 2rem "system-ui", sans-serif;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    width: 100%;
+    padding: 0 2rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* BLUE HOVER EFFECT */
+#tour a:hover {
+    background-color: #3498db;  /* Blue background on hover */
+    color: white;
+}
+
+#tour a:hover i {
+    color: white;  /* Icon turns white on hover */
+}
+
+#tour i {
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    width: 30px;
+}
 
 nav {
     padding: 1rem;
