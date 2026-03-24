@@ -147,6 +147,8 @@ nav {
     margin-right: auto;
     position: relative;
     cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }   
 
 .ham-menu span {
@@ -159,6 +161,7 @@ nav {
     transition: .1s ease;
     block-size: 5px;
     inline-size: 100%;
+    user-select: none;
 }
 
 .ham-menu span:nth-child(1) {
