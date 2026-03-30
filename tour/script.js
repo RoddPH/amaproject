@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (sceneName === 'hallway1') {
                     panoramaPath = './images/hallway1.jpg';
-                    // Hotspot to go to hallway2
+                    // Hotspot to go to hallway2 - KEEP ORIGINAL VALUES
                     hotspots = [{
                         pitch: isMobile ? -3 : -12,
                         yaw: 195,
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }];
                 } else if (sceneName === 'hallway2') {
                     panoramaPath = './images/hallway2.jpg';
-                    // Hotspot to go back to hallway1
+                    // Hotspot to go back to hallway1 - KEEP ORIGINAL VALUES
                     hotspots = [
                         {
                             pitch: isMobile ? -3 : -12,
@@ -123,8 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
+                            // Library door hotspot - KEEP ORIGINAL YAW AND PITCH VALUES
                             pitch: isMobile ? -3 : -12,
-                            yaw: 90, // Positioned to the right for the library door
+                            yaw: 90,
                             type: 'custom',
                             text: 'Click to enter Library',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -167,11 +168,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'library') {
                     panoramaPath = './images/Library.jpg';
-                    // Hotspot to go back to hallway2
+                    // Hotspot to go back to hallway2 - KEEP ORIGINAL YAW AND PITCH VALUES
                     hotspots = [{
-                        pitch: isMobile ? -3 : -12,
                         pitch: -2,
-                        yaw: 376, // Positioned to return to hallway2
+                        yaw: 376,
                         type: 'custom',
                         text: 'Click to return to Hallway',
                         createTooltipFunc: function(hotSpotDiv, args) {
