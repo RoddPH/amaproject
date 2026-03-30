@@ -79,16 +79,106 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (sceneName === 'hallway2') {
                     panoramaPath = './images/hallway2.jpg';
                     // Hotspot to go back to hallway1
+                    hotspots = [
+                        {
+                            pitch: isMobile ? -3 : -12,
+                            yaw: 20,
+                            type: 'custom',
+                            text: 'Click to return to previous area',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '28px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                
+                                // Save current angle before leaving
+                                saveCurrentAngle();
+                                
+                                // Load hallway1
+                                loadScene('hallway1');
+                                
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Returning to Hallway 1...';
+                                document.body.appendChild(notification);
+                                
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        },
+                        {
+                            pitch: isMobile ? -3 : -12,
+                            yaw: 90, // Positioned to the right for the library door
+                            type: 'custom',
+                            text: 'Click to enter Library',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-door-open';
+                                icon.style.fontSize = isMobile ? '32px' : '36px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                
+                                // Save current angle before leaving
+                                saveCurrentAngle();
+                                
+                                // Load library scene
+                                loadScene('library');
+                                
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Entering Library...';
+                                document.body.appendChild(notification);
+                                
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        }
+                    ];
+                } else if (sceneName === 'library') {
+                    panoramaPath = './images/Library.jpg';
+                    // Hotspot to go back to hallway2
                     hotspots = [{
                         pitch: isMobile ? -3 : -12,
-                        yaw: 20,
+                        pitch: -2,
+                        yaw: 376, // Positioned to return to hallway2
                         type: 'custom',
-                        text: 'Click to return to previous area',
+                        text: 'Click to return to Hallway',
                         createTooltipFunc: function(hotSpotDiv, args) {
                             hotSpotDiv.classList.add('custom-hotspot');
                             const icon = document.createElement('i');
-                            icon.className = 'fas fa-map-marker-alt';
-                            icon.style.fontSize = isMobile ? '28px' : '32px';
+                            icon.className = 'fas fa-door-open';
+                            icon.style.fontSize = isMobile ? '32px' : '36px';
                             icon.style.color = '#ffd966';
                             icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
                             icon.style.animation = 'none';
@@ -105,12 +195,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Save current angle before leaving
                             saveCurrentAngle();
                             
-                            // Load hallway1
-                            loadScene('hallway1');
+                            // Load hallway2
+                            loadScene('hallway2');
                             
                             const notification = document.createElement('div');
                             notification.className = 'click-notification';
-                            notification.textContent = 'Returning to Hallway 1...';
+                            notification.textContent = 'Returning to Hallway...';
                             document.body.appendChild(notification);
                             
                             setTimeout(function() {
