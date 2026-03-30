@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Virtual Tour - House Overlay</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -12,8 +12,12 @@
 </head>
 <body>
     <div id="panorama"></div>
-    <div class="house-overlay" id="homeOverlay" role="button" tabindex="0" aria-label="Go to homepage">
+    <div class="house-overlay" id="homeOverlay">
         <i class="fas fa-house-chimney"></i>
+    </div>
+    <div class="mobile-instruction" id="mobileInstruction">
+        <i class="fas fa-hand-pointer"></i>
+        <span>Drag to look around</span>
     </div>
 </body>
 </html>
