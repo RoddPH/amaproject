@@ -41,19 +41,24 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: 'Click to move to next area',
                         createTooltipFunc: function(hotSpotDiv, args) {
                             hotSpotDiv.classList.add('custom-hotspot');
+                            // Clear any existing content
+                            hotSpotDiv.innerHTML = '';
                             const icon = document.createElement('i');
                             icon.className = 'fas fa-map-marker-alt';
-                            icon.style.fontSize = isMobile ? '28px' : '32px';
+                            icon.style.fontSize = isMobile ? '40px' : '32px'; // Larger on mobile for easier tapping
                             icon.style.color = '#ffd966';
                             icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
                             icon.style.animation = 'none';
                             icon.style.transition = 'none';
+                            icon.style.pointerEvents = 'auto';
                             hotSpotDiv.appendChild(icon);
                             hotSpotDiv.style.transition = 'none';
                             hotSpotDiv.style.animation = 'none';
+                            hotSpotDiv.style.pointerEvents = 'auto';
                             return hotSpotDiv;
                         },
                         clickHandlerFunc: function() {
+                            console.log('Hallway1 hotspot clicked');
                             if (!clickEnabled) return;
                             clickEnabled = false;
                             
@@ -87,19 +92,23 @@ document.addEventListener('DOMContentLoaded', function() {
                             text: 'Click to return to previous area',
                             createTooltipFunc: function(hotSpotDiv, args) {
                                 hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
                                 const icon = document.createElement('i');
                                 icon.className = 'fas fa-map-marker-alt';
-                                icon.style.fontSize = isMobile ? '28px' : '32px';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
                                 icon.style.color = '#ffd966';
                                 icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
                                 icon.style.animation = 'none';
                                 icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
                                 hotSpotDiv.appendChild(icon);
                                 hotSpotDiv.style.transition = 'none';
                                 hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
                                 return hotSpotDiv;
                             },
                             clickHandlerFunc: function() {
+                                console.log('Hallway2 return hotspot clicked');
                                 if (!clickEnabled) return;
                                 clickEnabled = false;
                                 
@@ -130,19 +139,23 @@ document.addEventListener('DOMContentLoaded', function() {
                             text: 'Click to enter Library',
                             createTooltipFunc: function(hotSpotDiv, args) {
                                 hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
                                 const icon = document.createElement('i');
                                 icon.className = 'fas fa-door-open';
-                                icon.style.fontSize = isMobile ? '32px' : '36px';
+                                icon.style.fontSize = isMobile ? '44px' : '36px'; // Larger on mobile
                                 icon.style.color = '#ffd966';
                                 icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
                                 icon.style.animation = 'none';
                                 icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
                                 hotSpotDiv.appendChild(icon);
                                 hotSpotDiv.style.transition = 'none';
                                 hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
                                 return hotSpotDiv;
                             },
                             clickHandlerFunc: function() {
+                                console.log('Library door hotspot clicked');
                                 if (!clickEnabled) return;
                                 clickEnabled = false;
                                 
@@ -176,19 +189,23 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: 'Click to return to Hallway',
                         createTooltipFunc: function(hotSpotDiv, args) {
                             hotSpotDiv.classList.add('custom-hotspot');
+                            hotSpotDiv.innerHTML = '';
                             const icon = document.createElement('i');
                             icon.className = 'fas fa-door-open';
-                            icon.style.fontSize = isMobile ? '32px' : '36px';
+                            icon.style.fontSize = isMobile ? '44px' : '36px';
                             icon.style.color = '#ffd966';
                             icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
                             icon.style.animation = 'none';
                             icon.style.transition = 'none';
+                            icon.style.pointerEvents = 'auto';
                             hotSpotDiv.appendChild(icon);
                             hotSpotDiv.style.transition = 'none';
                             hotSpotDiv.style.animation = 'none';
+                            hotSpotDiv.style.pointerEvents = 'auto';
                             return hotSpotDiv;
                         },
                         clickHandlerFunc: function() {
+                            console.log('Library return hotspot clicked');
                             if (!clickEnabled) return;
                             clickEnabled = false;
                             
@@ -218,6 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     type: 'equirectangular',
                     panorama: panoramaPath,
                     autoLoad: true,
+                    autoRotate: false,
                     hfov: baseHfov,
                     minHfov: baseHfov,
                     maxHfov: baseHfov,
@@ -287,21 +305,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.error('Pannellum error:', error);
                     });
                     
+                    // Mobile touch optimization - ensure hotspots work
                     if (isMobile) {
-                        const container = document.getElementById('panorama');
-                        if (container) {
-                            let touchStartTime = 0;
-                            container.addEventListener('touchstart', function(e) {
-                                touchStartTime = Date.now();
+                        // Fix for mobile touch events on hotspots
+                        setTimeout(function() {
+                            const hotspotsElements = document.querySelectorAll('.custom-hotspot');
+                            hotspotsElements.forEach(function(el) {
+                                el.style.pointerEvents = 'auto';
+                                el.style.touchAction = 'manipulation';
                             });
-                            
-                            container.addEventListener('touchend', function(e) {
-                                const touchDuration = Date.now() - touchStartTime;
-                                if (touchDuration < 200 && e.target.closest('.custom-hotspot')) {
-                                    e.preventDefault();
-                                }
-                            });
-                        }
+                        }, 100);
                     }
                 }
             }
