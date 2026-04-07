@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (sceneName === 'hallway1') {
                     panoramaPath = './images/hallway1.jpg';
-                    // Hotspot to go to hallway2
+                    // Hotspot to go to hallway2 - UNCHANGED
                     hotspots = [{
                         pitch: -12,
                         yaw: 195,
@@ -76,10 +76,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     }];
                 } else if (sceneName === 'hallway2') {
                     panoramaPath = './images/hallway2.jpg';
-                    // Hotspots - SAME POSITIONS ON ALL DEVICES
+                    // Hotspots - ALL LOCATION PINS UNCHANGED
                     hotspots = [
                         {
-                            // Return to hallway1 hotspot
+                            // Return to hallway1 hotspot - UNCHANGED
                             pitch: -12,
                             yaw: 20,
                             type: 'custom',
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Library door hotspot
+                            // Library door hotspot - UNCHANGED
                             pitch: -12,
                             yaw: 90,
                             type: 'custom',
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Hallway 3 hotspot - location pin to go to hallway3
+                            // Hallway 3 hotspot - location pin to go to hallway3 - UNCHANGED
                             pitch: -12,
                             yaw: 198,
                             type: 'custom',
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Hotspots in hallway3
                     hotspots = [
                         {
-                            // Return to hallway2 hotspot
+                            // Return to hallway2 hotspot - LOCATION PIN UNCHANGED
                             pitch: -12,
                             yaw: 20,
                             type: 'custom',
@@ -248,10 +248,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Computer Lab door hotspot in hallway3
-                            // Using adjusted yaw for mobile to compensate for CSS transform
+                            // Computer Lab door hotspot in hallway3 - MOVED 20 DEGREES TO THE RIGHT
+                            // Changed from 120 to 140 (20 degrees to the right)
                             pitch: -12,
-                            yaw: isMobile ? 105 : 120,
+                            yaw: isMobile ? 125 : 140, // Desktop: 140°, Mobile: 125° (adjusted for CSS transform)
                             type: 'custom',
                             text: 'Click to enter Computer Lab',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'library') {
                     panoramaPath = './images/Library.jpg';
-                    // Hotspot to go back to hallway2
+                    // Hotspot to go back to hallway2 - UNCHANGED
                     hotspots = [{
                         pitch: -2,
                         yaw: 376,
@@ -335,8 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }];
                 } else if (sceneName === 'comlab2') {
                     panoramaPath = './images/comlab2.jpg';
-                    // Hotspot to go back to hallway3
-                    // Using adjusted yaw for mobile to compensate for CSS transform
+                    // Hotspot to go back to hallway3 - UNCHANGED
                     hotspots = [{
                         pitch: -10,
                         yaw: isMobile ? 275 : 290,
