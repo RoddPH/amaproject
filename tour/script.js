@@ -8,6 +8,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('Page loaded, isMobile:', isMobile);
     
+    // Adjust yaw values for mobile to compensate for CSS transform
+    // The CSS scales #panorama by 1.3 on mobile, which shifts hotspot positions
+    // These adjustments counter that shift
+    function getAdjustedYaw(desktopYaw, isMobileDevice) {
+        if (!isMobileDevice) return desktopYaw;
+        // Adjust yaw to compensate for the 1.3x scale transform on mobile
+        // The formula compensates for the visual shift caused by scaling
+        if (desktopYaw <= 180) {
+            return desktopYaw - 15;
+        } else {
+            return desktopYaw + 15;
+        }
+    }
+    
     if (typeof pannellum !== 'undefined') {
         console.log('Pannellum library found');
         try {
@@ -36,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Hotspot to go to hallway2
                     hotspots = [{
                         pitch: -12,
-                        yaw: 195,
+                        yaw: getAdjustedYaw(195, isMobile),
                         type: 'custom',
                         text: 'Click to move to next area',
                         createTooltipFunc: function(hotSpotDiv, args) {
@@ -76,12 +90,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }];
                 } else if (sceneName === 'hallway2') {
                     panoramaPath = './images/hallway2.jpg';
-                    // Hotspots - SAME POSITIONS ON ALL DEVICES
+                    // Hotspots with adjusted yaw for mobile
                     hotspots = [
                         {
                             // Return to hallway1 hotspot
                             pitch: -12,
-                            yaw: 20,
+                            yaw: getAdjustedYaw(20, isMobile),
                             type: 'custom',
                             text: 'Click to return to previous area',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -122,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         {
                             // Library door hotspot
                             pitch: -12,
-                            yaw: 90,
+                            yaw: getAdjustedYaw(90, isMobile),
                             type: 'custom',
                             text: 'Click to enter Library',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -163,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         {
                             // Hallway 3 hotspot - location pin to go to hallway3
                             pitch: -12,
-                            yaw: 198,
+                            yaw: getAdjustedYaw(198, isMobile),
                             type: 'custom',
                             text: 'Click to move to Hallway 3',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -204,12 +218,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway3') {
                     panoramaPath = './images/hallway3.jpg';
-                    // Hotspots in hallway3
+                    // Hotspots in hallway3 with adjusted yaw for mobile
                     hotspots = [
                         {
                             // Return to hallway2 hotspot
                             pitch: -12,
-                            yaw: 20,
+                            yaw: getAdjustedYaw(20, isMobile),
                             type: 'custom',
                             text: 'Click to return to Hallway 2',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -249,9 +263,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         },
                         {
                             // Computer Lab door hotspot in hallway3
-                            // Using adjusted yaw for mobile to compensate for CSS transform
                             pitch: -12,
-                            yaw: isMobile ? 105 : 120,
+                            yaw: getAdjustedYaw(120, isMobile),
                             type: 'custom',
                             text: 'Click to enter Computer Lab',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -295,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Hotspot to go back to hallway2
                     hotspots = [{
                         pitch: -2,
-                        yaw: 376,
+                        yaw: getAdjustedYaw(376, isMobile),
                         type: 'custom',
                         text: 'Click to return to Hallway',
                         createTooltipFunc: function(hotSpotDiv, args) {
@@ -336,10 +349,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (sceneName === 'comlab2') {
                     panoramaPath = './images/comlab2.jpg';
                     // Hotspot to go back to hallway3
-                    // Using adjusted yaw for mobile to compensate for CSS transform
                     hotspots = [{
                         pitch: -10,
-                        yaw: isMobile ? 275 : 290,
+                        yaw: getAdjustedYaw(290, isMobile),
                         type: 'custom',
                         text: 'Click to return to Hallway 3',
                         createTooltipFunc: function(hotSpotDiv, args) {
