@@ -33,19 +33,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (sceneName === 'hallway1') {
                     panoramaPath = './images/hallway1.jpg';
-                    // Hotspot to go to hallway2 - KEEP ORIGINAL VALUES
+                    // Hotspot to go to hallway2
                     hotspots = [{
-                        pitch: isMobile ? -3 : -12,
+                        pitch: -12,
                         yaw: 195,
                         type: 'custom',
                         text: 'Click to move to next area',
                         createTooltipFunc: function(hotSpotDiv, args) {
                             hotSpotDiv.classList.add('custom-hotspot');
-                            // Clear any existing content
                             hotSpotDiv.innerHTML = '';
                             const icon = document.createElement('i');
                             icon.className = 'fas fa-map-marker-alt';
-                            icon.style.fontSize = isMobile ? '40px' : '32px'; // Larger on mobile for easier tapping
+                            icon.style.fontSize = isMobile ? '40px' : '32px';
                             icon.style.color = '#ffd966';
                             icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
                             icon.style.animation = 'none';
@@ -61,18 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             console.log('Hallway1 hotspot clicked');
                             if (!clickEnabled) return;
                             clickEnabled = false;
-                            
-                            // Save current angle before leaving
                             saveCurrentAngle();
-                            
-                            // Load hallway2
                             loadScene('hallway2');
-                            
                             const notification = document.createElement('div');
                             notification.className = 'click-notification';
                             notification.textContent = 'Moving to Hallway 2...';
                             document.body.appendChild(notification);
-                            
                             setTimeout(function() {
                                 if (notification && notification.remove) {
                                     notification.remove();
@@ -83,10 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }];
                 } else if (sceneName === 'hallway2') {
                     panoramaPath = './images/hallway2.jpg';
-                    // Hotspot to go back to hallway1 - KEEP ORIGINAL VALUES
+                    // Hotspots - SAME POSITIONS ON ALL DEVICES
                     hotspots = [
                         {
-                            pitch: isMobile ? -3 : -12,
+                            // Return to hallway1 hotspot
+                            pitch: -12,
                             yaw: 20,
                             type: 'custom',
                             text: 'Click to return to previous area',
@@ -111,18 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 console.log('Hallway2 return hotspot clicked');
                                 if (!clickEnabled) return;
                                 clickEnabled = false;
-                                
-                                // Save current angle before leaving
                                 saveCurrentAngle();
-                                
-                                // Load hallway1
                                 loadScene('hallway1');
-                                
                                 const notification = document.createElement('div');
                                 notification.className = 'click-notification';
                                 notification.textContent = 'Returning to Hallway 1...';
                                 document.body.appendChild(notification);
-                                
                                 setTimeout(function() {
                                     if (notification && notification.remove) {
                                         notification.remove();
@@ -132,8 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Library door hotspot - KEEP ORIGINAL YAW AND PITCH VALUES
-                            pitch: isMobile ? -3 : -12,
+                            // Library door hotspot
+                            pitch: -12,
                             yaw: 90,
                             type: 'custom',
                             text: 'Click to enter Library',
@@ -142,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 hotSpotDiv.innerHTML = '';
                                 const icon = document.createElement('i');
                                 icon.className = 'fas fa-door-open';
-                                icon.style.fontSize = isMobile ? '44px' : '36px'; // Larger on mobile
+                                icon.style.fontSize = isMobile ? '44px' : '36px';
                                 icon.style.color = '#ffd966';
                                 icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
                                 icon.style.animation = 'none';
@@ -158,18 +146,140 @@ document.addEventListener('DOMContentLoaded', function() {
                                 console.log('Library door hotspot clicked');
                                 if (!clickEnabled) return;
                                 clickEnabled = false;
-                                
-                                // Save current angle before leaving
                                 saveCurrentAngle();
-                                
-                                // Load library scene
                                 loadScene('library');
-                                
                                 const notification = document.createElement('div');
                                 notification.className = 'click-notification';
                                 notification.textContent = 'Entering Library...';
                                 document.body.appendChild(notification);
-                                
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        },
+                        {
+                            // Hallway 3 hotspot - location pin to go to hallway3
+                            pitch: -12,
+                            yaw: 198,
+                            type: 'custom',
+                            text: 'Click to move to Hallway 3',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway 3 hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway3');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Moving to Hallway 3...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        }
+                    ];
+                } else if (sceneName === 'hallway3') {
+                    panoramaPath = './images/hallway3.jpg';
+                    // Hotspots in hallway3
+                    hotspots = [
+                        {
+                            // Return to hallway2 hotspot
+                            pitch: -12,
+                            yaw: 20,
+                            type: 'custom',
+                            text: 'Click to return to Hallway 2',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway3 return hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway2');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Returning to Hallway 2...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        },
+                        {
+                            // NEW: Computer Lab door hotspot in hallway3
+                            pitch: -12,
+                            yaw: 150,
+                            type: 'custom',
+                            text: 'Click to enter Computer Lab',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-door-open';
+                                icon.style.fontSize = isMobile ? '44px' : '36px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Computer Lab door hotspot clicked in hallway3');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('comlab2');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Entering Computer Lab...';
+                                document.body.appendChild(notification);
                                 setTimeout(function() {
                                     if (notification && notification.remove) {
                                         notification.remove();
@@ -181,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'library') {
                     panoramaPath = './images/Library.jpg';
-                    // Hotspot to go back to hallway2 - KEEP ORIGINAL YAW AND PITCH VALUES
+                    // Hotspot to go back to hallway2
                     hotspots = [{
                         pitch: -2,
                         yaw: 376,
@@ -208,18 +318,55 @@ document.addEventListener('DOMContentLoaded', function() {
                             console.log('Library return hotspot clicked');
                             if (!clickEnabled) return;
                             clickEnabled = false;
-                            
-                            // Save current angle before leaving
                             saveCurrentAngle();
-                            
-                            // Load hallway2
                             loadScene('hallway2');
-                            
                             const notification = document.createElement('div');
                             notification.className = 'click-notification';
                             notification.textContent = 'Returning to Hallway...';
                             document.body.appendChild(notification);
-                            
+                            setTimeout(function() {
+                                if (notification && notification.remove) {
+                                    notification.remove();
+                                }
+                                clickEnabled = true;
+                            }, 2000);
+                        }
+                    }];
+                } else if (sceneName === 'comlab2') {
+                    panoramaPath = './images/comlab2.jpg';
+                    // Hotspot to go back to hallway3
+                    hotspots = [{
+                        pitch: -12,
+                        yaw: 330,
+                        type: 'custom',
+                        text: 'Click to return to Hallway 3',
+                        createTooltipFunc: function(hotSpotDiv, args) {
+                            hotSpotDiv.classList.add('custom-hotspot');
+                            hotSpotDiv.innerHTML = '';
+                            const icon = document.createElement('i');
+                            icon.className = 'fas fa-door-open';
+                            icon.style.fontSize = isMobile ? '44px' : '36px';
+                            icon.style.color = '#ffd966';
+                            icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                            icon.style.animation = 'none';
+                            icon.style.transition = 'none';
+                            icon.style.pointerEvents = 'auto';
+                            hotSpotDiv.appendChild(icon);
+                            hotSpotDiv.style.transition = 'none';
+                            hotSpotDiv.style.animation = 'none';
+                            hotSpotDiv.style.pointerEvents = 'auto';
+                            return hotSpotDiv;
+                        },
+                        clickHandlerFunc: function() {
+                            console.log('Computer Lab return hotspot clicked');
+                            if (!clickEnabled) return;
+                            clickEnabled = false;
+                            saveCurrentAngle();
+                            loadScene('hallway3');
+                            const notification = document.createElement('div');
+                            notification.className = 'click-notification';
+                            notification.textContent = 'Returning to Hallway 3...';
+                            document.body.appendChild(notification);
                             setTimeout(function() {
                                 if (notification && notification.remove) {
                                     notification.remove();
@@ -276,7 +423,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         } else if (currentPitch > maxPitch) {
                             viewer.setPitch(maxPitch, true);
                         }
-                        // Update current angle when user looks around
                         currentAngle.yaw = viewer.getYaw();
                         currentAngle.pitch = viewer.getPitch();
                     });
@@ -288,13 +434,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     });
                     
-                    // Update current angle when user looks around (yaw)
+                    // Update current angle when user looks around
                     viewer.on('yawchanged', function() {
                         currentAngle.yaw = viewer.getYaw();
                         currentAngle.pitch = viewer.getPitch();
                     });
                     
-                    // Update current angle when user looks around (pitch)
                     viewer.on('pitchchanged', function() {
                         currentAngle.yaw = viewer.getYaw();
                         currentAngle.pitch = viewer.getPitch();
@@ -305,9 +450,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.error('Pannellum error:', error);
                     });
                     
-                    // Mobile touch optimization - ensure hotspots work
+                    // Mobile touch optimization
                     if (isMobile) {
-                        // Fix for mobile touch events on hotspots
                         setTimeout(function() {
                             const hotspotsElements = document.querySelectorAll('.custom-hotspot');
                             hotspotsElements.forEach(function(el) {
