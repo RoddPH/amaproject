@@ -248,10 +248,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Computer Lab door hotspot in hallway3 - MOVED 20 DEGREES TO THE RIGHT
-                            // Changed from 120 to 140 (20 degrees to the right)
+                            // Computer Lab entrance door hotspot in hallway3 - UNCHANGED (stays at 140)
                             pitch: -12,
-                            yaw: isMobile ? 125 : 140, // Desktop: 140°, Mobile: 125° (adjusted for CSS transform)
+                            yaw: isMobile ? 125 : 140,
                             type: 'custom',
                             text: 'Click to enter Computer Lab',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -272,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 return hotSpotDiv;
                             },
                             clickHandlerFunc: function() {
-                                console.log('Computer Lab door hotspot clicked in hallway3');
+                                console.log('Computer Lab entrance door hotspot clicked in hallway3');
                                 if (!clickEnabled) return;
                                 clickEnabled = false;
                                 saveCurrentAngle();
@@ -335,10 +334,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }];
                 } else if (sceneName === 'comlab2') {
                     panoramaPath = './images/comlab2.jpg';
-                    // Hotspot to go back to hallway3 - UNCHANGED
+                    // Hotspot to go back to hallway3 - MOVED 5 MORE DEGREES TO THE RIGHT (total 15 degrees from original)
+                    // Changed from 300 to 305 (5 more degrees to the right)
                     hotspots = [{
                         pitch: -10,
-                        yaw: isMobile ? 275 : 290,
+                        yaw: isMobile ? 290 : 305, // Desktop: 305°, Mobile: 290° (15 degrees total from original 290/275)
                         type: 'custom',
                         text: 'Click to return to Hallway 3',
                         createTooltipFunc: function(hotSpotDiv, args) {
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             return hotSpotDiv;
                         },
                         clickHandlerFunc: function() {
-                            console.log('Computer Lab return hotspot clicked');
+                            console.log('Computer Lab return door hotspot clicked');
                             if (!clickEnabled) return;
                             clickEnabled = false;
                             saveCurrentAngle();
