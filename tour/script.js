@@ -248,9 +248,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // NEW: Computer Lab door hotspot in hallway3
+                            // Computer Lab door hotspot in hallway3
+                            // Using adjusted yaw for mobile to compensate for CSS transform
                             pitch: -12,
-                            yaw: 150,
+                            yaw: isMobile ? 105 : 120,
                             type: 'custom',
                             text: 'Click to enter Computer Lab',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -335,9 +336,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (sceneName === 'comlab2') {
                     panoramaPath = './images/comlab2.jpg';
                     // Hotspot to go back to hallway3
+                    // Using adjusted yaw for mobile to compensate for CSS transform
                     hotspots = [{
-                        pitch: -12,
-                        yaw: 330,
+                        pitch: -10,
+                        yaw: isMobile ? 275 : 290,
                         type: 'custom',
                         text: 'Click to return to Hallway 3',
                         createTooltipFunc: function(hotSpotDiv, args) {
