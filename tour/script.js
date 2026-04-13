@@ -249,8 +249,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         },
                         {
                             // Computer Lab entrance door hotspot in hallway3
-                            pitch: -12,
-                            yaw: isMobile ? 125 : 140,
+                            pitch: -13,
+                            yaw: isMobile ? 100 : 120,
                             type: 'custom',
                             text: 'Click to enter Computer Lab',
                             createTooltipFunc: function(hotSpotDiv, args) {
@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // NEW: Hallway 5 hotspot - location pin to go to hallway5
+                            // Hallway 5 hotspot - location pin to go to hallway5
                             pitch: -8,
                             yaw: 205,
                             type: 'custom',
@@ -419,12 +419,186 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway5') {
                     panoramaPath = './images/hallway5.jpg';
-                    // Hotspot to return to hallway4)
+                    // Hotspots in hallway5
+                    hotspots = [
+                        {
+                            // Return to hallway4 hotspot
+                            pitch: -11,
+                            yaw: 380,
+                            type: 'custom',
+                            text: 'Click to return to Hallway 4',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway5 return hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway4');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Returning to Hallway 4...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            } 
+                        },
+                        {
+                            // Hallway 6 hotspot - location pin to go to hallway6
+                            pitch: -2,
+                            yaw: 198,
+                            type: 'custom',
+                            text: 'Click to move to Hallway 6',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway 6 hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway6');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Moving to Hallway 6...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        }
+                    ];
+                } else if (sceneName === 'hallway6') {
+                    panoramaPath = './images/hallway6.jpg';
+                    // Hotspots in hallway6
+                    hotspots = [
+                        {
+                            // Return to hallway5 hotspot
+                            pitch: -5,
+                            yaw: 378,
+                            type: 'custom',
+                            text: 'Click to return to Hallway 5',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway6 return hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway5');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Returning to Hallway 5...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        },
+                        {
+                            // NEW: Hallway 7 hotspot - location pin to go to hallway7
+                            pitch: -14,
+                            yaw: 175,
+                            type: 'custom',
+                            text: 'Click to move to Hallway 7',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway 7 hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway7');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Moving to Hallway 7...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        }
+                    ];
+                } else if (sceneName === 'hallway7') {
+                    panoramaPath = './images/hallway7.jpg';
+                    // Hotspot to return to hallway6
                     hotspots = [{
-                        pitch: -8,
-                        yaw: 380,
+                        pitch: -13,
+                        yaw: 393, // Positioned to return to hallway6 (opposite of 150°)
                         type: 'custom',
-                        text: 'Click to return to Hallway 4',
+                        text: 'Click to return to Hallway 6',
                         createTooltipFunc: function(hotSpotDiv, args) {
                             hotSpotDiv.classList.add('custom-hotspot');
                             hotSpotDiv.innerHTML = '';
@@ -443,14 +617,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             return hotSpotDiv;
                         },
                         clickHandlerFunc: function() {
-                            console.log('Hallway5 return hotspot clicked');
+                            console.log('Hallway7 return hotspot clicked');
                             if (!clickEnabled) return;
                             clickEnabled = false;
                             saveCurrentAngle();
-                            loadScene('hallway4');
+                            loadScene('hallway6');
                             const notification = document.createElement('div');
                             notification.className = 'click-notification';
-                            notification.textContent = 'Returning to Hallway 4...';
+                            notification.textContent = 'Returning to Hallway 6...';
                             document.body.appendChild(notification);
                             setTimeout(function() {
                                 if (notification && notification.remove) {
@@ -507,8 +681,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     panoramaPath = './images/comlab2.jpg';
                     // Hotspot to go back to hallway3
                     hotspots = [{
-                        pitch: -10,
-                        yaw: isMobile ? 290 : 305,
+                        pitch: -8,
+                        yaw: isMobile ? 200 : 290,
                         type: 'custom',
                         text: 'Click to return to Hallway 3',
                         createTooltipFunc: function(hotSpotDiv, args) {
