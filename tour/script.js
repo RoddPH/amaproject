@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Store hallway9's original angle to restore when returning
     let hallway9StoredAngle = null;
+    let hallway10StoredAngle = null;
     
     console.log('Page loaded, isMobile:', isMobile);
     
@@ -55,8 +56,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     hallway9StoredAngle = null; // Clear after restoring
                 }
                 
+                // Handle hallway10 restoration
+                if (sceneName === 'hallway10' && hallway10StoredAngle !== null) {
+                    sceneYaw = hallway10StoredAngle.yaw;
+                    scenePitch = hallway10StoredAngle.pitch;
+                    console.log(`RESTORING hallway10 angle: yaw=${sceneYaw.toFixed(2)}, pitch=${scenePitch.toFixed(2)}`);
+                    hallway10StoredAngle = null;
+                }
+                
                 // Handle hallway10 - add 180 offset when going TO hallway10
-                if (sceneName === 'hallway10') {
+                if (sceneName === 'hallway10' && hallway9StoredAngle === null && hallway10StoredAngle === null) {
                     // Store the current hallway9 angle before applying offset
                     if (hallway9StoredAngle === null && (currentAngle.yaw !== 180 || !isFirstScene)) {
                         hallway9StoredAngle = { yaw: currentAngle.yaw, pitch: currentAngle.pitch };
@@ -65,6 +74,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Apply 180 offset to make hallway10 look forward
                     sceneYaw = (sceneYaw + 180) % 360;
                     console.log(`Applied 180° offset for hallway10, new yaw: ${sceneYaw.toFixed(2)}`);
+                }
+                
+                // Handle hallway11 - store hallway10 angle and add offset
+                if (sceneName === 'hallway11') {
+                    // Store the current hallway10 angle before applying offset
+                    if (hallway10StoredAngle === null) {
+                        hallway10StoredAngle = { yaw: currentAngle.yaw, pitch: currentAngle.pitch };
+                        console.log(`STORED hallway10 angle for later return: yaw=${hallway10StoredAngle.yaw.toFixed(2)}`);
+                    }
+                    // Apply 180 offset to make hallway11 look forward
+                    sceneYaw = (sceneYaw + 180) % 360;
+                    console.log(`Applied 180° offset for hallway11, new yaw: ${sceneYaw.toFixed(2)}`);
                 }
                 
                 if (sceneName === 'hallway1') {
@@ -863,11 +884,104 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway10') {
                     panoramaPath = './images/hallway10.jpg';
+                    hotspots = [
+                        {
+                            pitch: -2,
+                            yaw: 200,
+                            type: 'custom',
+                            text: 'Click to return to Hallway 9',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway10 return to hallway9 clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                // Reverse the 180° offset so hallway9 resumes
+                                // from wherever the camera is looking in hallway10
+                                hallway9StoredAngle = {
+                                    yaw: (viewer.getYaw() + 180) % 360,
+                                    pitch: viewer.getPitch()
+                                };
+                                console.log(`Set hallway9 return angle (reversed offset): yaw=${hallway9StoredAngle.yaw.toFixed(2)}`);
+                                saveCurrentAngle();
+                                loadScene('hallway9');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Returning to Hallway 9...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        },
+                        {
+                            // NEW: Hallway 11 hotspot - location pin to go to hallway11
+                            pitch: -20,
+                            yaw: -60,
+                            type: 'custom',
+                            text: 'Click to move to Hallway 11',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway 11 hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway11');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Moving to Hallway 11...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        }
+                    ];
+                } else if (sceneName === 'hallway11') {
+                    panoramaPath = './images/hallway11.jpg';
+                    // Hotspot to return to hallway10
                     hotspots = [{
-                        pitch: -2,
-                        yaw: 200,
+                        pitch: -16,
+                        yaw: 310,
                         type: 'custom',
-                        text: 'Click to return to Hallway 9',
+                        text: 'Click to return to Hallway 10',
                         createTooltipFunc: function(hotSpotDiv, args) {
                             hotSpotDiv.classList.add('custom-hotspot');
                             hotSpotDiv.innerHTML = '';
@@ -886,21 +1000,20 @@ document.addEventListener('DOMContentLoaded', function() {
                             return hotSpotDiv;
                         },
                         clickHandlerFunc: function() {
-                            console.log('Hallway10 return hotspot clicked');
+                            console.log('Hallway11 return hotspot clicked');
                             if (!clickEnabled) return;
                             clickEnabled = false;
-                            // Reverse the 180° offset so hallway9 resumes
-                            // from wherever the camera is looking in hallway10
-                            hallway9StoredAngle = {
+                            // Store the current hallway11 angle and reverse offset for hallway10
+                            hallway10StoredAngle = {
                                 yaw: (viewer.getYaw() + 180) % 360,
                                 pitch: viewer.getPitch()
                             };
-                            console.log(`Set hallway9 return angle (reversed offset): yaw=${hallway9StoredAngle.yaw.toFixed(2)}`);
+                            console.log(`Set hallway10 return angle (reversed offset): yaw=${hallway10StoredAngle.yaw.toFixed(2)}`);
                             saveCurrentAngle();
-                            loadScene('hallway9');
+                            loadScene('hallway10');
                             const notification = document.createElement('div');
                             notification.className = 'click-notification';
-                            notification.textContent = 'Returning to Hallway 9...';
+                            notification.textContent = 'Returning to Hallway 10...';
                             document.body.appendChild(notification);
                             setTimeout(function() {
                                 if (notification && notification.remove) {
