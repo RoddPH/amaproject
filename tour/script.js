@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Store current camera angle to preserve between scenes
     let currentAngle = { yaw: 180, pitch: 0 };
+    let isFirstScene = true;
+    
+    // Store hallway9's original angle to restore when returning
+    let hallway9StoredAngle = null;
+    let hallway10StoredAngle = null;
     
     console.log('Page loaded, isMobile:', isMobile);
     
@@ -31,9 +36,60 @@ document.addEventListener('DOMContentLoaded', function() {
                 let panoramaPath = '';
                 let hotspots = [];
                 
+                // Determine the yaw to use for this scene
+                let sceneYaw = currentAngle.yaw;
+                let scenePitch = currentAngle.pitch;
+                
+                // For hallway1, always use 180 on first load
+                if (sceneName === 'hallway1' && isFirstScene) {
+                    sceneYaw = 180;
+                    scenePitch = 0;
+                    isFirstScene = false;
+                    console.log('First scene hallway1 set to yaw: 180');
+                }
+                
+                // Handle hallway9 restoration - use stored angle if available (NO OFFSET)
+                if (sceneName === 'hallway9' && hallway9StoredAngle !== null) {
+                    sceneYaw = hallway9StoredAngle.yaw;
+                    scenePitch = hallway9StoredAngle.pitch;
+                    console.log(`RESTORING hallway9 angle (NO OFFSET): yaw=${sceneYaw.toFixed(2)}, pitch=${scenePitch.toFixed(2)}`);
+                    hallway9StoredAngle = null; // Clear after restoring
+                }
+                
+                // Handle hallway10 restoration
+                if (sceneName === 'hallway10' && hallway10StoredAngle !== null) {
+                    sceneYaw = hallway10StoredAngle.yaw;
+                    scenePitch = hallway10StoredAngle.pitch;
+                    console.log(`RESTORING hallway10 angle: yaw=${sceneYaw.toFixed(2)}, pitch=${scenePitch.toFixed(2)}`);
+                    hallway10StoredAngle = null;
+                }
+                
+                // Handle hallway10 - add 180 offset when going TO hallway10
+                if (sceneName === 'hallway10' && hallway9StoredAngle === null && hallway10StoredAngle === null) {
+                    // Store the current hallway9 angle before applying offset
+                    if (hallway9StoredAngle === null && (currentAngle.yaw !== 180 || !isFirstScene)) {
+                        hallway9StoredAngle = { yaw: currentAngle.yaw, pitch: currentAngle.pitch };
+                        console.log(`STORED hallway9 angle for later return: yaw=${hallway9StoredAngle.yaw.toFixed(2)}`);
+                    }
+                    // Apply 180 offset to make hallway10 look forward
+                    sceneYaw = (sceneYaw + 180) % 360;
+                    console.log(`Applied 180° offset for hallway10, new yaw: ${sceneYaw.toFixed(2)}`);
+                }
+                
+                // Handle hallway11 - store hallway10 angle and add offset
+                if (sceneName === 'hallway11') {
+                    // Store the current hallway10 angle before applying offset
+                    if (hallway10StoredAngle === null) {
+                        hallway10StoredAngle = { yaw: currentAngle.yaw, pitch: currentAngle.pitch };
+                        console.log(`STORED hallway10 angle for later return: yaw=${hallway10StoredAngle.yaw.toFixed(2)}`);
+                    }
+                    // Apply 180 offset to make hallway11 look forward
+                    sceneYaw = (sceneYaw + 180) % 360;
+                    console.log(`Applied 180° offset for hallway11, new yaw: ${sceneYaw.toFixed(2)}`);
+                }
+                
                 if (sceneName === 'hallway1') {
                     panoramaPath = './images/hallway1.jpg';
-                    // Hotspot to go to hallway2
                     hotspots = [{
                         pitch: -12,
                         yaw: 195,
@@ -76,10 +132,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }];
                 } else if (sceneName === 'hallway2') {
                     panoramaPath = './images/hallway2.jpg';
-                    // Hotspots - ALL LOCATION PINS UNCHANGED
                     hotspots = [
                         {
-                            // Return to hallway1 hotspot
                             pitch: -12,
                             yaw: 20,
                             type: 'custom',
@@ -120,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Library door hotspot
                             pitch: -12,
                             yaw: 90,
                             type: 'custom',
@@ -161,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Hallway 3 hotspot - location pin to go to hallway3
                             pitch: -12,
                             yaw: 198,
                             type: 'custom',
@@ -204,10 +256,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway3') {
                     panoramaPath = './images/hallway3.jpg';
-                    // Hotspots in hallway3
                     hotspots = [
                         {
-                            // Return to hallway2 hotspot - LOCATION PIN
                             pitch: -12,
                             yaw: 20,
                             type: 'custom',
@@ -248,7 +298,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Computer Lab entrance door hotspot in hallway3
                             pitch: -13,
                             yaw: isMobile ? 100 : 120,
                             type: 'custom',
@@ -289,7 +338,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Hallway 4 hotspot - location pin to go to hallway4
                             pitch: -4,
                             yaw: 198,
                             type: 'custom',
@@ -332,10 +380,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway4') {
                     panoramaPath = './images/hallway4.jpg';
-                    // Hotspots in hallway4
                     hotspots = [
                         {
-                            // Return to hallway3 hotspot
                             pitch: -8,
                             yaw: 28,
                             type: 'custom',
@@ -376,7 +422,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Hallway 5 hotspot - location pin to go to hallway5
                             pitch: -8,
                             yaw: 205,
                             type: 'custom',
@@ -419,10 +464,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway5') {
                     panoramaPath = './images/hallway5.jpg';
-                    // Hotspots in hallway5
                     hotspots = [
                         {
-                            // Return to hallway4 hotspot
                             pitch: -11,
                             yaw: 380,
                             type: 'custom',
@@ -460,10 +503,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     }
                                     clickEnabled = true;
                                 }, 2000);
-                            } 
+                            }
                         },
                         {
-                            // Hallway 6 hotspot - location pin to go to hallway6
                             pitch: -2,
                             yaw: 198,
                             type: 'custom',
@@ -506,10 +548,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway6') {
                     panoramaPath = './images/hallway6.jpg';
-                    // Hotspots in hallway6
                     hotspots = [
                         {
-                            // Return to hallway5 hotspot
                             pitch: -5,
                             yaw: 378,
                             type: 'custom',
@@ -550,7 +590,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Hallway 7 hotspot - location pin to go to hallway7
                             pitch: -14,
                             yaw: 175,
                             type: 'custom',
@@ -593,10 +632,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway7') {
                     panoramaPath = './images/hallway7.jpg';
-                    // Hotspots in hallway7
                     hotspots = [
                         {
-                            // Return to hallway6 hotspot
                             pitch: -13,
                             yaw: 393,
                             type: 'custom',
@@ -637,7 +674,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // Hallway 8 hotspot - location pin to go to hallway8
                             pitch: -2,
                             yaw: 213,
                             type: 'custom',
@@ -680,10 +716,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway8') {
                     panoramaPath = './images/hallway8.jpg';
-                    // Hotspots in hallway8
                     hotspots = [
                         {
-                            // Return to hallway7 hotspot
                             pitch: -13,
                             yaw: 410,
                             type: 'custom',
@@ -724,7 +758,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // NEW: Hallway 9 hotspot - location pin to go to hallway9
                             pitch: -10,
                             yaw: 206,
                             type: 'custom',
@@ -767,12 +800,188 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                 } else if (sceneName === 'hallway9') {
                     panoramaPath = './images/hallway9.jpg';
-                    // Hotspot to return to hallway8
+                    hotspots = [
+                        {
+                            pitch: -20,
+                            yaw: 393,
+                            type: 'custom',
+                            text: 'Click to return to Hallway 8',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway9 return hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway8');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Returning to Hallway 8...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        },
+                        {
+                            pitch: -1,
+                            yaw: 203,
+                            type: 'custom',
+                            text: 'Click to move to Hallway 10',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway 10 hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway10');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Moving to Hallway 10...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        }
+                    ];
+                } else if (sceneName === 'hallway10') {
+                    panoramaPath = './images/hallway10.jpg';
+                    hotspots = [
+                        {
+                            pitch: -2,
+                            yaw: 200,
+                            type: 'custom',
+                            text: 'Click to return to Hallway 9',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway10 return to hallway9 clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                // Reverse the 180° offset so hallway9 resumes
+                                // from wherever the camera is looking in hallway10
+                                hallway9StoredAngle = {
+                                    yaw: (viewer.getYaw() + 180) % 360,
+                                    pitch: viewer.getPitch()
+                                };
+                                console.log(`Set hallway9 return angle (reversed offset): yaw=${hallway9StoredAngle.yaw.toFixed(2)}`);
+                                saveCurrentAngle();
+                                loadScene('hallway9');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Returning to Hallway 9...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        },
+                        {
+                            // NEW: Hallway 11 hotspot - location pin to go to hallway11
+                            pitch: -20,
+                            yaw: -60,
+                            type: 'custom',
+                            text: 'Click to move to Hallway 11',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-map-marker-alt';
+                                icon.style.fontSize = isMobile ? '40px' : '32px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Hallway 11 hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('hallway11');
+                                const notification = document.createElement('div');
+                                notification.className = 'click-notification';
+                                notification.textContent = 'Moving to Hallway 11...';
+                                document.body.appendChild(notification);
+                                setTimeout(function() {
+                                    if (notification && notification.remove) {
+                                        notification.remove();
+                                    }
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
+                        }
+                    ];
+                } else if (sceneName === 'hallway11') {
+                    panoramaPath = './images/hallway11.jpg';
+                    // Hotspot to return to hallway10
                     hotspots = [{
-                        pitch: -20,
-                        yaw: 393,
+                        pitch: -16,
+                        yaw: 310,
                         type: 'custom',
-                        text: 'Click to return to Hallway 8',
+                        text: 'Click to return to Hallway 10',
                         createTooltipFunc: function(hotSpotDiv, args) {
                             hotSpotDiv.classList.add('custom-hotspot');
                             hotSpotDiv.innerHTML = '';
@@ -791,14 +1000,20 @@ document.addEventListener('DOMContentLoaded', function() {
                             return hotSpotDiv;
                         },
                         clickHandlerFunc: function() {
-                            console.log('Hallway9 return hotspot clicked');
+                            console.log('Hallway11 return hotspot clicked');
                             if (!clickEnabled) return;
                             clickEnabled = false;
+                            // Store the current hallway11 angle and reverse offset for hallway10
+                            hallway10StoredAngle = {
+                                yaw: (viewer.getYaw() + 180) % 360,
+                                pitch: viewer.getPitch()
+                            };
+                            console.log(`Set hallway10 return angle (reversed offset): yaw=${hallway10StoredAngle.yaw.toFixed(2)}`);
                             saveCurrentAngle();
-                            loadScene('hallway8');
+                            loadScene('hallway10');
                             const notification = document.createElement('div');
                             notification.className = 'click-notification';
-                            notification.textContent = 'Returning to Hallway 8...';
+                            notification.textContent = 'Returning to Hallway 10...';
                             document.body.appendChild(notification);
                             setTimeout(function() {
                                 if (notification && notification.remove) {
@@ -810,7 +1025,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }];
                 } else if (sceneName === 'library') {
                     panoramaPath = './images/Library.jpg';
-                    // Hotspot to go back to hallway2
                     hotspots = [{
                         pitch: -2,
                         yaw: 376,
@@ -853,7 +1067,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }];
                 } else if (sceneName === 'comlab2') {
                     panoramaPath = './images/comlab2.jpg';
-                    // Hotspot to go back to hallway3
                     hotspots = [{
                         pitch: -8,
                         yaw: isMobile ? 200 : 290,
@@ -905,8 +1118,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     hfov: baseHfov,
                     minHfov: baseHfov,
                     maxHfov: baseHfov,
-                    pitch: currentAngle.pitch,
-                    yaw: currentAngle.yaw,
+                    pitch: scenePitch,
+                    yaw: sceneYaw,
                     mouseZoom: false,
                     touchZoom: false,
                     showZoomCtrl: false,
@@ -931,10 +1144,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Create new viewer
                 viewer = pannellum.viewer('panorama', viewerConfig);
-                console.log(`Viewer created for ${sceneName} at yaw=${currentAngle.yaw.toFixed(2)}, pitch=${currentAngle.pitch.toFixed(2)}`);
+                console.log(`Viewer created for ${sceneName} at yaw=${sceneYaw.toFixed(2)}, pitch=${scenePitch.toFixed(2)}`);
                 
                 if (viewer) {
-                    // Add pitch limiter
                     viewer.on('pitchchanged', function() {
                         let currentPitch = viewer.getPitch();
                         if (currentPitch < minPitch) {
@@ -946,14 +1158,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         currentAngle.pitch = viewer.getPitch();
                     });
                     
-                    // Disable zoom
                     viewer.on('zoomchanged', function() {
                         if (viewer.getHfov() !== baseHfov) {
                             viewer.setHfov(baseHfov, true);
                         }
                     });
                     
-                    // Update current angle when user looks around
                     viewer.on('yawchanged', function() {
                         currentAngle.yaw = viewer.getYaw();
                         currentAngle.pitch = viewer.getPitch();
@@ -964,12 +1174,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         currentAngle.pitch = viewer.getPitch();
                     });
                     
-                    // Add load error handling
                     viewer.on('error', function(error) {
                         console.error('Pannellum error:', error);
                     });
                     
-                    // Mobile touch optimization
                     if (isMobile) {
                         setTimeout(function() {
                             const hotspotsElements = document.querySelectorAll('.custom-hotspot');
