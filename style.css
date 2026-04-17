@@ -117,6 +117,45 @@ body::before {
     pointer-events: auto;
 }
 
+/* ========== CONTACT US MENU ITEM STYLES ========== */
+#contact {
+    width: 100%;
+    list-style: none;
+    margin-top: 0.5rem;
+}
+
+#contact a {
+    font: normal 700 2rem "system-ui", sans-serif;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    width: 100%;
+    padding: 0 2rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+#contact a:hover {
+    background-color: #3498db;  
+    color: white;
+}
+
+#contact a:hover i {
+    color: white;
+}
+
+#contact i {
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    width: 30px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
 nav {
     padding: 1rem;
     display: flex;
@@ -373,13 +412,13 @@ main {
     border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-#tour a {
+#tour a, #contact a {
     position: relative;
     overflow: hidden;
     cursor: pointer;
 }
 
-#tour a::before {
+#tour a::before, #contact a::before {
     content: '';
     position: absolute;
     top: 0;
@@ -390,13 +429,16 @@ main {
     transition: left 0.5s ease;
 }
 
-#tour a:hover::before {
+#tour a:hover::before, #contact a:hover::before {
     left: 100%;
 }
 
 #tour a,
 #tour a i,
-#tour a span {
+#tour a span,
+#contact a,
+#contact a i,
+#contact a span {
     cursor: pointer;
 }
 
@@ -604,12 +646,12 @@ nav {
         font-size: 2rem;
     }
     
-    #tour a {
+    #tour a, #contact a {
         font-size: 1.3rem;
         padding: 0 1.5rem;
     }
     
-    #tour i {
+    #tour i, #contact i {
         font-size: 1.5rem;
     }
     
@@ -743,7 +785,7 @@ a, .ham-menu, #logo, .cta-btn {
     transform: scale(1.05);
 }
 
-.ham-menu:focus-visible, #tour a:focus-visible, .cta-btn:focus-visible {
+.ham-menu:focus-visible, #tour a:focus-visible, #contact a:focus-visible, .cta-btn:focus-visible {
     outline: 2px solid #ffd700;
     outline-offset: 2px;
     border-radius: 8px;

@@ -96,6 +96,25 @@ console.log("Helo");
         });
     }
     
+    // Contact Us link functionality
+    const contactLink = document.querySelector('#contact a');
+    if (contactLink) {
+        contactLink.addEventListener('click', function(e) {
+            if (offScreenMenu.classList.contains('active')) {
+                hamMenu.classList.remove('active');
+                offScreenMenu.classList.remove('active');
+            }
+            console.log("Contact Us link clicked - navigating to ama.edu.ph");
+        });
+        
+        contactLink.addEventListener('mouseenter', () => {
+            contactLink.style.transform = 'translateX(8px)';
+        });
+        contactLink.addEventListener('mouseleave', () => {
+            contactLink.style.transform = 'translateX(0)';
+        });
+    }
+    
     // ========== TEAM CARD FUNCTIONALITY ==========
     const learnMoreBtn = document.getElementById('learnMoreBtn');
     const teamCard = document.getElementById('teamCard');
