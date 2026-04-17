@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Disable right-click context menu on the panorama
+    document.getElementById('panorama').addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    });
+    
+    // Also disable right-click on the whole page
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    });
+    
     let viewer = null;
     let clickEnabled = true;
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -50,6 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
             label.style.display = 'block';
         } else if (sceneName === 'room307') {
             label.textContent = '🚪 Room 307';
+            label.style.display = 'block';
+        } else if (sceneName === 'room301') {
+            label.textContent = '🚪 Room 301';
             label.style.display = 'block';
         } else {
             label.style.display = 'none';
@@ -730,6 +745,40 @@ document.addEventListener('DOMContentLoaded', function() {
                                     clickEnabled = true;
                                 }, 2000);
                             }
+                        },
+                        {
+                            // Room 301 door hotspot
+                            pitch: -8,
+                            yaw: 135,
+                            type: 'custom',
+                            text: 'Click to enter Room 301',
+                            createTooltipFunc: function(hotSpotDiv, args) {
+                                hotSpotDiv.classList.add('custom-hotspot');
+                                hotSpotDiv.innerHTML = '';
+                                const icon = document.createElement('i');
+                                icon.className = 'fas fa-door-open';
+                                icon.style.fontSize = isMobile ? '44px' : '36px';
+                                icon.style.color = '#ffd966';
+                                icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                                icon.style.animation = 'none';
+                                icon.style.transition = 'none';
+                                icon.style.pointerEvents = 'auto';
+                                hotSpotDiv.appendChild(icon);
+                                hotSpotDiv.style.transition = 'none';
+                                hotSpotDiv.style.animation = 'none';
+                                hotSpotDiv.style.pointerEvents = 'auto';
+                                return hotSpotDiv;
+                            },
+                            clickHandlerFunc: function() {
+                                console.log('Room 301 door hotspot clicked');
+                                if (!clickEnabled) return;
+                                clickEnabled = false;
+                                saveCurrentAngle();
+                                loadScene('room301');
+                                setTimeout(function() {
+                                    clickEnabled = true;
+                                }, 2000);
+                            }
                         }
                     ];
                 } else if (sceneName === 'hallway7') {
@@ -1242,7 +1291,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         },
                         {
-                            // NEW: Room 307 door hotspot
+                            // Room 307 door hotspot
                             pitch: -3,
                             yaw: 158,
                             type: 'custom',
@@ -1575,9 +1624,45 @@ document.addEventListener('DOMContentLoaded', function() {
                             }, 2000);
                         }
                     }];
+                } else if (sceneName === 'room301') {
+                    panoramaPath = './images/room301.jpg';
+                    // Hotspot to return to hallway6
+                    hotspots = [{
+                        pitch: 0,
+                        yaw: 314,
+                        type: 'custom',
+                        text: 'Click to return to Hallway 6',
+                        createTooltipFunc: function(hotSpotDiv, args) {
+                            hotSpotDiv.classList.add('custom-hotspot');
+                            hotSpotDiv.innerHTML = '';
+                            const icon = document.createElement('i');
+                            icon.className = 'fas fa-door-open';
+                            icon.style.fontSize = isMobile ? '44px' : '36px';
+                            icon.style.color = '#ffd966';
+                            icon.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+                            icon.style.animation = 'none';
+                            icon.style.transition = 'none';
+                            icon.style.pointerEvents = 'auto';
+                            hotSpotDiv.appendChild(icon);
+                            hotSpotDiv.style.transition = 'none';
+                            hotSpotDiv.style.animation = 'none';
+                            hotSpotDiv.style.pointerEvents = 'auto';
+                            return hotSpotDiv;
+                        },
+                        clickHandlerFunc: function() {
+                            console.log('Room 301 return to hallway6 clicked');
+                            if (!clickEnabled) return;
+                            clickEnabled = false;
+                            saveCurrentAngle();
+                            loadScene('hallway6');
+                            setTimeout(function() {
+                                clickEnabled = true;
+                            }, 2000);
+                        }
+                    }];
                 }
                 
-                // Create viewer configuration with saved angle
+                // Create viewer configuration with saved angle - REMOVED compass and fullscreen controls
                 const viewerConfig = {
                     type: 'equirectangular',
                     panorama: panoramaPath,
@@ -1591,8 +1676,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     mouseZoom: false,
                     touchZoom: false,
                     showZoomCtrl: false,
-                    compass: true,
-                    showFullscreenCtrl: true,
+                    compass: false, // Disabled compass
+                    showFullscreenCtrl: false, // Disabled fullscreen button
                     drag: true,
                     minPitch: minPitch,
                     maxPitch: maxPitch,
