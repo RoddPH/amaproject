@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             label.textContent = '📚 LIBRARY';
             label.style.display = 'block';
         } else if (sceneName === 'comlab2') {
-            label.textContent = '💻 Computer Laboratory 1 (Room 304)';
+            label.textContent = '💻 Computer Laboratory 2 (Room 304)';
             label.style.display = 'block';
         } else if (sceneName === 'genphysicslab') {
             label.textContent = '⚛️ General Physics Laboratory';
@@ -629,8 +629,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         },
                         {
                             // General Physics Lab door hotspot
-                            pitch: -8,
-                            yaw: 140,
+                            pitch: -9,
+                            yaw: 130,
                             type: 'custom',
                             text: 'Click to enter General Physics Lab',
                             createTooltipFunc: function(hotSpotDiv, args) {
